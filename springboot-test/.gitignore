@@ -1,0 +1,61 @@
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+# Maven
+*.ser
+*.ec
+target/
+
+# Ignore Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
+!gradle-wrapper.jar
+
+# Cache of project
+.gradletasknamecache
+
+# java
+classes/
+build/
+target/
+.gradle
+
+# IntelliJ Idea
+*.ipr
+*.iws
+*.iml
+.idea
+out/
+test-output
+.gradletasknamecache
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+# OS X
+.DS_Store

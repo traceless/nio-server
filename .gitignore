@@ -1,6 +1,20 @@
 # Compiled class file
 *.class
 
+**/target
+**/log
+*.class
+*.classpath
+**/.idea
+*.iml
+*.project
+*.settings
+**/.vscode
+**/.metadata
+*/.springBeans
+.DS_Store
+
+
 # Log file
 *.log
 

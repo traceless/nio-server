@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+    <property name="BaseDir" value="${LOG_PATH:-/tmp/logs}/java" />
+    <springProperty scope="context" name="appName" source="spring.application.name" defaultValue="springboot" />
+    
+    <property name="logPath" value="${LOG_FILE:-${BaseDir}/logging}" />
+    <property name="LogPattern" value="%clr(%d{${LOG_DATEFORMAT_PATTERN:-yyyy-MM-dd HH:mm:ss.SSS,Asia/Shanghai}}){faint} %clr(${LOG_LEVEL_PATTERN:-%5p [${appName:-},%X{traceId},%X{spanId}]}) %clr(${PID:- }){magenta} %clr(---){faint} %clr([%15.15t]){faint} %clr(%-40.40logger{39}){cyan} %clr(:){faint} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <File>${logPath}/${appName}.log</File>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/%d{yyyyMM}/${logInfoName}.%d{yyyy-MM-dd}.log.gz</fileNamePattern>
+            <maxHistory>30</maxHistory>
+        </rollingPolicy>
+        <encoder charset="UTF-8">
+            <pattern>[%-5level] %date --%thread-- [%logger] %msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name ="ASYNC_FILE" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold >0</discardingThreshold>
+        <queueSize>12345</queueSize>
+        <appender-ref ref = "FILE"/>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LogPattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- 控制台输出也要用异步 -->
+    <appender name ="ASYNC_CONSOLE" class= "ch.qos.logback.classic.AsyncAppender">
+        <discardingThreshold >0</discardingThreshold>
+        <!-- 这里的队列非常的重要，建议设置一万以上，之前设置1000，吞吐量依然上不去，如果队列满了，就会使用主线程进行写入阻塞（目前通过测试可以得出的结论），所以说线程池多么重要，到处都是它的坑，若discardingThreshold > 0，也只丢弃≤INFO级日志，出现大量错误日志时，还是会阻塞 -->
+        <queueSize>12345</queueSize>
+        <appender-ref ref = "CONSOLE"/>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="ASYNC_CONSOLE" />
+        <appender-ref ref="ASYNC_FILE" />
+    </root>
+
+</configuration>

@@ -11,6 +11,7 @@ import com.helloworld.springboot.util.VertxHttpClientUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -40,23 +41,33 @@ class WebController {
 
     /**
      * 测试接口
+     * 
      * @param time
      * @return
      * @throws InterruptedException
      */
     @RequestMapping("/test/{time}")
     public String test(@PathVariable("time") int time) throws InterruptedException {
-        System.out.println("----test------" + System.currentTimeMillis());
-        // log.info("---test--:", time ); log对性能测试影响还是挺大
+        // System.out.println("----test------" + System.currentTimeMillis());
+        //  log对性能测试影响还是挺大，不过改成异步之后，吞吐量就没问题了。主要是log是同步写入文件的。
+        log.info("---test--:", time );
         if (time > 0) {
             Thread.sleep(time);
         }
         return "hello world";
     }
 
+    @GetMapping("/status")
+    public String refreshStatus(String devId, String status) {
+        // TODO，收到设备状态后，推送给第三方IOT平台。要求接口满足达到1W+/S的并发
+        // 代码如何实现
+        return "success";
+    }
 
+    
     /**
      * 传统的请求方式
+     * 
      * @param time
      * @return
      * @throws Exception

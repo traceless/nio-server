@@ -48,8 +48,7 @@ class WebController {
      */
     @RequestMapping("/test/{time}")
     public String test(@PathVariable("time") int time) throws InterruptedException {
-        // System.out.println("----test------" + System.currentTimeMillis());
-        // log对性能测试影响还是挺大，不过改成异步之后，吞吐量就没问题了。主要是log是同步写入文件的。
+        // 要异步输出到console，不然影响性能测试，实际项目发布运行，不需要打开console查看的，问题不大
         log.info("---test--:{}", time);
         if (time > 0) {
             Thread.sleep(time);

@@ -112,9 +112,8 @@ restRouter.all("/test/:time", async (ctx) => {
 
     @RequestMapping("/test/{time}")
     public String test(@PathVariable("time") int time) throws InterruptedException {
-        System.out.println("----test------" + System.currentTimeMillis());
-        // log对性能测试影响还是挺大 已经通过异步写入日志解决了 
-        // log.info("---test--:", time ); 
+        // 已经通过异步输出到console，直接测试影响不大 
+        log.info("---test--:", time ); 
         if (time > 0) {
             Thread.sleep(time);
         }

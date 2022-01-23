@@ -50,7 +50,7 @@ class WebController {
     public String test(@PathVariable("time") int time) throws InterruptedException {
         // System.out.println("----test------" + System.currentTimeMillis());
         // log对性能测试影响还是挺大，不过改成异步之后，吞吐量就没问题了。主要是log是同步写入文件的。
-        log.info("---test--:", time);
+        log.info("---test--:{}", time);
         if (time > 0) {
             Thread.sleep(time);
         }

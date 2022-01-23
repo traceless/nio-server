@@ -5,10 +5,16 @@
 
 这个知识点非常的重要，我认为不亚于前面的NIO问题。log日志是同步写入文件的，造成线程等待，我以为这个问题在springboot的服务中会没问题，线程数量增加不就行了吗？没想到居然也不行（还好测试过了），因为多个线程无法同时进行写入的，还是要竞争等待。。。在webflux和vert.x的服务中，就更不用说了，严重降低了服务的吞吐量。因为它们的默认线程数量就是等于cpu核心数，而且还不知道在那里改，当然不建议大家去改，我估计它设计的时候肯定不会让你去改动这个数量。而且改了也没用，遇到同步写入log的问题，依旧无解。刚在springboot测试过了，无解。
 
-因为它的输入到console和写入文件都是同步的，导致IO时间增加，所以吞吐量就上不去了，而且多线程也无法解决。必须要把日志输出改成异步输入，且设置好任务队列大小，queueSize > 10000。
+因为它的输入到`console`和写入文件都是同步的，导致IO时间增加，所以吞吐量就上不去了，而且多线程也无法解决。必须要把日志输出改成异步输入，且设置好任务队列大小，queueSize > 10000。
 
 ```
- <!-- 控制台输出也要用异步 -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${LogPattern}</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+    <!-- 控制台输出也要用异步，因为CONSOLE也是要竞争的 -->
     <appender name ="ASYNC_CONSOLE" class= "ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold >0</discardingThreshold>
         <queueSize>12345</queueSize>

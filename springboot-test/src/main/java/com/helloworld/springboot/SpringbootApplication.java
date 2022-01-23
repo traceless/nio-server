@@ -49,22 +49,21 @@ class WebController {
     @RequestMapping("/test/{time}")
     public String test(@PathVariable("time") int time) throws InterruptedException {
         // System.out.println("----test------" + System.currentTimeMillis());
-        //  log对性能测试影响还是挺大，不过改成异步之后，吞吐量就没问题了。主要是log是同步写入文件的。
-        log.info("---test--:", time );
+        // log对性能测试影响还是挺大，不过改成异步之后，吞吐量就没问题了。主要是log是同步写入文件的。
+        log.info("---test--:", time);
         if (time > 0) {
             Thread.sleep(time);
         }
         return "hello world";
     }
 
-    @GetMapping("/status")
-    public String refreshStatus(String devId, String status) {
-        // TODO，收到设备状态后，推送给第三方IOT平台。要求接口满足达到1W+/S的并发
-        // 代码如何实现
+    @GetMapping("/getPrepayId")
+    public String getPrepayId(String userId, String orderId) {
+        // TODO，收到APP请求后，访问微信接口获取预支付订单号。
+        // 代码如何实现，要求接口满足达到1W+/S的并发
         return "success";
     }
 
-    
     /**
      * 传统的请求方式
      * 

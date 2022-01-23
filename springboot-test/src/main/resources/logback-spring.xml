@@ -40,8 +40,8 @@
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="ASYNC_CONSOLE" />
-        <appender-ref ref="ASYNC_FILE" />
+        <appender-ref ref="CONSOLE" />
+        <!-- <appender-ref ref="ASYNC_FILE" /> -->
     </root>
 
 </configuration>

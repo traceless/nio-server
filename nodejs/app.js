@@ -26,9 +26,9 @@ restRouter.all("/test/:time", async (ctx) => {
     await sleep(time);
   }
   // 消耗单线程的CPU时间，把性能下降到一定位置，这样方便测试IO的对性能的影响
-  for (let i = 0; i < 700; i++) {
-    ("tokentest" + i).match(/^token.*$/g);
-  }
+  // for (let i = 0; i < 700; i++) {
+  //   ("tokentest" + i).match(/^token.*$/g);
+  // }
   if (count++ % 1000 == 0) {
     console.log(ctx.url, count);
   }

@@ -13,12 +13,12 @@ async function sleep(time) {
   });
 }
 
-let url = "http://127.0.0.1:8080/test/0";
-
-// url = "http://127.0.0.1:8080/testAsync/200";
+let url = "http://127.0.0.1:8080/test/20";
+// url = "http://127.0.0.1:8080/testlog";
+// url = "http://127.0.0.1:8080/testAsync/20";
 // url = "http://127.0.0.1:7080/test/100";
 
-const maxSockets = 1500;
+const maxSockets = 2000;
 const httpsAgent = new Agents({ maxSockets, maxFreeSockets: maxSockets, keepAlive: true })
 const httpAgent = new Agent({ maxSockets, maxFreeSockets: maxSockets, keepAlive: true })
 const options = {
@@ -51,7 +51,7 @@ async function request(_options) {
 }
 
 // 请求总数
-const reqCount = 20112;
+const reqCount = 21313;
 const start = async function (reqNum = reqCount) {
   const sum = reqNum < reqCount ? reqNum : reqCount;
   let finish = 1;

@@ -23,15 +23,15 @@ public class VertxServer extends AbstractVerticle {
         HttpServer server = vertx.createHttpServer(httpopt);
         Router router = Router.router(vertx);
         router.route("/test/:time").handler(ctx -> {
-            HttpServerRequest req = ctx.request(); 
-            String time =  req.getParam("time");
+            HttpServerRequest req = ctx.request();
+            String time = req.getParam("time");
             System.out.println("---test---" + time);
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            ctx.response().end("hello world vert.x");
+
+            String url = "http://127.0.0.1:7080/test/" + time;
+            VertxHttpClient.getClient().post(url, (data) -> {
+                ctx.response().end("hello world vert.x" + data);
+            });
+
         });
         server.requestHandler(router);
         server.listen(8080, "0.0.0.0");

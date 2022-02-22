@@ -35,13 +35,13 @@
     <appender name ="ASYNC_CONSOLE" class= "ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold >80</discardingThreshold>
         <!-- 这里的队列非常的重要，建议设置一万以上，之前设置1000，吞吐量依然上不去，如果队列满了，会阻塞线程写入队列，若discardingThreshold > 0，也只丢弃≤INFO级日志，出现大量错误日志时，还是会阻塞 -->
-        <queueSize>12345</queueSize>
+        <queueSize>22345</queueSize>
         <appender-ref ref = "CONSOLE"/>
     </appender>
 
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
-        <!-- <appender-ref ref="ASYNC_FILE" /> -->
+        <appender-ref ref="ASYNC_CONSOLE" />
+        <appender-ref ref="ASYNC_FILE" />
     </root>
 
 </configuration>

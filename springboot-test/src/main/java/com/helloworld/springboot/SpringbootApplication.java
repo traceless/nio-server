@@ -51,33 +51,30 @@ class WebController {
         // 要异步输出到console，不然影响性能测试，实际项目发布运行，不需要打开console查看的，问题不大
         log.info("---test--:{}", time);
         if (time > 0) {
+            // 模拟IO业务执行时的等待
             Thread.sleep(time);
         }
         return "hello world";
     }
+    
+
 
     @GetMapping("/getPrepayId")
-    public String getPrepayId(String userId, String orderId) {
-        // TODO，收到APP请求后，访问微信接口获取预支付订单号。
+    public String getPrepayId(String userId, String orderId) throws Exception {
+        // TODO，收到APP请求后，需要请求微服务B，或者预支付订单号
         // 代码如何实现，要求接口满足达到1W+/S的并发
-        return "success";
+        String data = getPIdFromServerB(100);
+        return data;
     }
 
-    /**
-     * 传统的请求方式
-     * 
-     * @param time
-     * @return
-     * @throws Exception
-     */
-    @RequestMapping("/testBlock/{time}")
-    public String testBlock(@PathVariable("time") int time) throws Exception {
+    public String getPIdFromServerB(@PathVariable("time") int time) throws Exception {
         System.out.println("-----testAsync------" + System.currentTimeMillis());
         String url = "http://127.0.0.1:7080/test/" + time;
         String res = HttpClientUtil.get(url, null);
         return res;
     }
 
+    
     /**
      * 测试异步处理请求
      * 

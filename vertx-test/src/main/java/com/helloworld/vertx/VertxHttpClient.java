@@ -23,7 +23,7 @@ public class VertxHttpClient {
     private static int poolSize = 2000;
 
     /** 单位秒 */
-    private static int timeout = 3;
+    private static int timeout = 6;
 
     private WebClient webClient = null;
 
@@ -33,17 +33,19 @@ public class VertxHttpClient {
      * 初始化属性
      */
     public VertxHttpClient() {
-        WebClientOptions options = new WebClientOptions();
-        options.setMaxPoolSize(poolSize);
-        options.setIdleTimeout(timeout);
-        WebClient webClient = WebClient.create(vertx, options);
-        this.setWebClient(webClient);
+        this.init(poolSize, timeout);
     }
 
     public VertxHttpClient(int poolSize, int timeout) {
+        this.init(poolSize, timeout);
+    }
+
+    private void init(int poolSize, int timeout){
         WebClientOptions options = new WebClientOptions();
         options.setMaxPoolSize(poolSize);
+        options.setKeepAlive(true);
         options.setIdleTimeout(timeout);
+        options.setMaxWaitQueueSize(50000);
         WebClient webClient = WebClient.create(vertx, options);
         this.setWebClient(webClient);
     }

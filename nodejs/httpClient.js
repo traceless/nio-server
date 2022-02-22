@@ -16,7 +16,7 @@ async function sleep(time) {
 let url = "http://127.0.0.1:8080/test/20";
 // url = "http://127.0.0.1:8080/testlog";
 // url = "http://127.0.0.1:8080/testAsync/20";
-url = "http://127.0.0.1:7080/test/10";
+url = "http://127.0.0.1:8080/test/10";
 
 const maxSockets = 2000;
 const httpsAgent = new Agents({ maxSockets, maxFreeSockets: maxSockets, keepAlive: true })

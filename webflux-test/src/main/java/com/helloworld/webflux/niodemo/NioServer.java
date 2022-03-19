@@ -61,6 +61,7 @@ public class NioServer {
                     // 注意！这里和阻塞io的区别非常大，在编码层面之前的等待输入已经变成了注册事件，这样我们就可以在等待的时候做别的事情，
                     socketChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
                 }
+
                 // 服务端关心的可读，意味着有数据从client传来了，根据不同的需要进行读取，然后返回
                 if (selectionKey.isReadable()) {
                     SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
@@ -69,7 +70,6 @@ public class NioServer {
                     if (recount == -1) {
                         System.out.println("==browser was close connect");
                         socketChannel.close();
-                        ;
                         selectionKey.cancel();
                         continue;
                     }

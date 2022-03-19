@@ -13,6 +13,7 @@ public class NioServerDemo {
     public static void main(String[] args) throws Exception {
         // 运行NIO客户端，请求nodejs服务，类比rpc，200个连接
         NioClient client = new NioClient("127.0.0.1", 7080, 200);
+        
         // 启动服务监听 8080 监听。设置handleRequest函数
         NioServer server = new NioServer(8080, (reqWrapper) -> {
             System.out.println("==Thread currentThread name: " + Thread.currentThread().getName());

@@ -34,11 +34,12 @@ public class OrderServiceHandle {
             }
             getLevel(userId, (level) -> {
                 if (level > 0) {
-                    saveOrder(userId, goods, (order) -> {
-                        consumer.accept(order, null);
-                        return "ok";
-                    });
+                    goods.setPrice(1);
                 }
+                saveOrder(userId, goods, (order) -> {
+                    consumer.accept(order, null);
+                    return "ok";
+                });
             });
         });
     }

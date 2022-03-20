@@ -51,7 +51,7 @@ async function request(_options) {
 }
 
 // 请求总数
-const reqCount = 21313;
+const reqCount = 5000;
 const start = async function (reqNum = reqCount) {
   const sum = reqNum < reqCount ? reqNum : reqCount;
   let finish = 1;

@@ -103,9 +103,9 @@ public class NioServer {
             StringBuilder respData = new StringBuilder();
             respData.append("HTTP/1.1 200 Ok\r\n");
             respData.append("Content-Type:text/html;charset=utf-8\r\n");
-            respData.append("Content-Length: 4\r\n");
+            respData.append("Content-Length: 8\r\n");
             respData.append("\r\n");
-            respData.append("test");
+            respData.append("test1234");
             try {
                 reqWrapper.setAsync(true);
                 System.out.println("== server reps \r\n" + respData);

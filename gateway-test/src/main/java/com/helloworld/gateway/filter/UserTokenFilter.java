@@ -1,6 +1,5 @@
 package com.helloworld.gateway.filter;
 
-
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -73,13 +72,23 @@ public class UserTokenFilter extends AbstractGatewayFilterFactory<UserTokenFilte
     }
 
     private Mono<String> getUserId(String accessToken) {
-        // redisTemplate.opsForValue().set(accessToken, "helloname");
-        // 这种同步代码的写法是有问题的
-        String userId = redisTemplate.opsForValue().get(accessToken);
+        // 这种同步代码的写法是有问题的，即便它执行很快，连1ms都不需要，但是依然不行，因为网关线程总数只有几个，应该使用响应式编程
+        // String userId = redisTemplate.opsForValue().get(accessToken); // 0.5ms 2000, 16000
         // return Mono.just(userId);
-        // 应该使用响应式编程
         return reactiveRedisTemplate.opsForValue().get(accessToken);
-        
+    }
+
+    /**
+     * 使用线程池去执行
+     * 
+     * @param accessToken
+     * @return
+     */
+    public Mono<String> getUserIdInThread(String accessToken) {
+        return Mono.fromFuture(MyThreadPool.supplyAsync(() -> {
+            String userId = redisTemplate.opsForValue().get(accessToken);
+            return userId;
+        }));
     }
 
     /**

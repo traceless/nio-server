@@ -89,7 +89,6 @@ public class NioClient {
      */
     private void eventPoll() throws IOException {
         while (selector.select() > 0) {
-
             Iterator<SelectionKey> it = selector.selectedKeys().iterator();
             while (it.hasNext()) {
                 SelectionKey key = it.next();
@@ -104,10 +103,9 @@ public class NioClient {
                     continue;
                 }
             }
-
+            // 有客户端连接被断开了，就需要重新连接上
             Set<SelectionKey> set = selector.keys();
             if (set.size() < pool) {
-                // 有客户端连接被断开了，需要重新连接上
                 System.out.println("==do createConnect");
                 // 可以使用线程异步处理
                 createConnect();
@@ -159,6 +157,7 @@ public class NioClient {
         // 获取数据
         SocketChannel socketChannel = (SocketChannel) key.channel();
         receiveBuffer.clear();
+        // 这里说明服务端连接断开了
         int reconut = socketChannel.read(receiveBuffer);
         if (reconut == -1) {
             System.out.println("==remoteserver was close connect skey: " + key.hashCode());
@@ -211,6 +210,7 @@ public class NioClient {
                 while ((msg = bufferedReader.readLine()) != null) {
                     // 发送到服务端
                     client.sendMsg(msg + "\r\n", resp -> {
+                        System.out.println("---resp handle--\r\n" + resp);
                     });
                 }
             } catch (Exception e) {

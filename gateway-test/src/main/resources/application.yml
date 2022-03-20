@@ -1,0 +1,35 @@
+server:
+  port: 9080
+
+spring:
+  application:
+    name: gateway
+  redis:
+    ## Redis数据库索引（默认为0）
+    database: 0
+    host: 192.168.43.100
+    port: 6379
+    password: 123456
+    timeout: 2000
+  web:
+    resources:
+      chain:
+        strategy:
+          content:
+            enabled: true
+            paths: /**
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: activity-route
+          uri: http://127.0.0.1:7080
+          predicates:
+            - Path=/v1/test/**
+          filters:
+            - StripPrefix=1
+            - name: UserTokenFilter
+              args:
+                enabledFilter: true

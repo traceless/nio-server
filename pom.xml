@@ -15,6 +15,7 @@
         <module>springboot-test</module>
         <module>vertx-test</module>
         <module>webflux-test</module>
+        <module>gateway-test</module>
     </modules>
 
     <build>

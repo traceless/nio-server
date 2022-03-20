@@ -47,7 +47,7 @@ class WebController {
      * @throws InterruptedException
      */
     @RequestMapping("/test/{time}")
-    public String test(@PathVariable("time") int time) throws InterruptedException {
+    public String test(@PathVariable("time") int time, HttpServletRequest req) throws InterruptedException {
         // 要异步输出到console，不然影响性能测试，实际项目发布运行，不需要打开console查看的，问题不大
         log.info("---test--:{}", time);
         if (time > 0) {
@@ -106,6 +106,10 @@ class WebController {
     public void redisAsync(@PathVariable("time") int time, HttpServletRequest req) throws IOException {
         System.out.println("-----redisAsync------" + System.currentTimeMillis());
         final AsyncContext ctx = req.startAsync();
+        // ctx.start(() ->{
+        //     String name = Thread.currentThread().getName();
+        //     System.out.println(" == = == " + name);
+        // });
         String key = "user:test:key";
         this.repository.monoFindById(key).subscribe(data -> {
             try {

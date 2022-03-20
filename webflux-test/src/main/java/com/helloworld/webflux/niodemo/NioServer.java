@@ -22,7 +22,7 @@ import org.springframework.util.StringUtils;
  */
 public class NioServer {
 
-    private ByteBuffer readBuffer = ByteBuffer.allocateDirect(2048);
+    private ByteBuffer readBuffer = ByteBuffer.allocateDirect(1024);
     private Selector selector;
     private Function<RequestWrapper, String> handleRequest;
 
@@ -40,10 +40,8 @@ public class NioServer {
     }
 
     public void eventPoll() throws Exception {
-
         // block api
         while (selector.select() > 0) {
-
             Iterator<SelectionKey> iterator = selector.selectedKeys().iterator();
             while (iterator.hasNext()) {
                 SelectionKey selectionKey = iterator.next();
@@ -101,16 +99,21 @@ public class NioServer {
 
     public static void main(String[] args) throws Exception {
         new NioServer(8080, reqWrapper -> {
-            String reqData = reqWrapper.getReqData();
-            String respData = "server reply: " + reqData;
+            String reqBody = reqWrapper.getReqData();
+            StringBuilder respData = new StringBuilder();
+            respData.append("HTTP/1.1 200 Ok\r\n");
+            respData.append("Content-Type:text/html;charset=utf-8\r\n");
+            respData.append("Content-Length: 4\r\n");
+            respData.append("\r\n");
+            respData.append("test");
             try {
                 reqWrapper.setAsync(true);
-                System.out.println("== server" + respData);
-                reqWrapper.getSocketChannel().write(ByteBuffer.wrap(respData.getBytes()));
+                System.out.println("== server reps \r\n" + respData);
+                reqWrapper.getSocketChannel().write(ByteBuffer.wrap(respData.toString().getBytes()));
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            return "--sync--" + respData;
+            return respData.toString();
         }).eventPoll();
     }
 }

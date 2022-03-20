@@ -18,7 +18,7 @@ let url = "http://127.0.0.1:8080/test/20";
 // url = "http://127.0.0.1:8080/testAsync/20";
 url = "http://127.0.0.1:8080/test/10";
 
-const maxSockets = 2000;
+const maxSockets = 200;
 const httpsAgent = new Agents({ maxSockets, maxFreeSockets: maxSockets, keepAlive: true })
 const httpAgent = new Agent({ maxSockets, maxFreeSockets: maxSockets, keepAlive: true })
 const options = {

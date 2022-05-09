@@ -1,4 +1,4 @@
-package com.helloworld.springboot;
+package com.helloworld.springboot.async;
 
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;

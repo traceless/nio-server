@@ -18,11 +18,11 @@ public class PostRepository {
     @Autowired
     ReactiveRedisOperations<String, String> reactiveRedisTemplate;
 
-    String findById(String key) {
+    public String findById(String key) {
         return template.opsForValue().get(key);
     }
 
-    Mono<String> monoFindById(String key) {
+    public Mono<String> monoFindById(String key) {
         return reactiveRedisTemplate.opsForValue().get(key);
     }
 

@@ -1,12 +1,12 @@
 server:
   port: 8080
-  tomcat:
-    max-threads: 500
-    accept-count: 1234567
-    max-connections: 10000
+  # tomcat:
+  #   max-threads: 200
+  #   accept-count: 1234567
+  #   max-connections: 10000
   undertow:
     io-threads: 10
-    worker-threads: 20
+    worker-threads: 100
 
 spring:
   application:

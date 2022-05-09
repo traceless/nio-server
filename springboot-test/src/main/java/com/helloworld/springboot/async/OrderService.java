@@ -1,4 +1,4 @@
-package com.helloworld.springboot;
+package com.helloworld.springboot.async;
 
 import com.helloworld.springboot.model.Goods;
 import com.helloworld.springboot.model.Order;
